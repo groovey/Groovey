@@ -1,18 +1,28 @@
 <?php
 
-use Groovey\Application;
+namespace UnitTestFiles\Test;
 
-class GrooveyTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+// use Groovey\Application;
+
+class GrooveyTest extends TestCase
 {
     public $app;
 
     public function setUp()
     {
-        $app = new Application();
+        // $app = new Application();
 
-        $app['debug'] = true;
+        // $app['debug'] = true;
 
-        $this->app = $app;
+        // $this->app = $app;
     }
 
+    public function testSamples(): void
+    {
+        $this->assertTrue(true);
+        $this->assertEquals('user@example.com', 'user@example.com');
+        $this->assertRegExp('/Groovey/', 'Groovey');
+    }
 }

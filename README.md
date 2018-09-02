@@ -1,1 +1,4 @@
-## [READONLY] The Groovey Framework.
+## Unit Testing
+
+    $ phpunit tests
+

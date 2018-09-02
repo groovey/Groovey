@@ -18,12 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Silex\Api\BootableProviderInterface;
-use Silex\Api\EventListenerProviderInterface;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Provider\ExceptionHandlerServiceProvider;
-use Silex\Provider\RoutingServiceProvider;
-use Silex\Provider\HttpKernelServiceProvider;
 
 class Application extends Container implements HttpKernelInterface, TerminableInterface
 {

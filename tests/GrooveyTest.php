@@ -4,7 +4,7 @@ namespace UnitTestFiles\Test;
 
 use PHPUnit\Framework\TestCase;
 
-// use Groovey\Application;
+use Groovey\Application;
 
 class GrooveyTest extends TestCase
 {
@@ -12,7 +12,7 @@ class GrooveyTest extends TestCase
 
     public function setUp()
     {
-        // $app = new Application();
+        $app = new Application();
 
         // $app['debug'] = true;
 

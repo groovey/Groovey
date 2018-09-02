@@ -1,0 +1,21 @@
+{
+    "name": "groovey/groovey",
+    "description": "Groovey Framework.",
+    "keywords": ["silex", "groovey"],
+    "authors": [
+        {
+            "name": "Harold Kim Cantil",
+            "email": "pokoot@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "symfony/http-foundation" : "~4.1",
+        "symfony/routing" : "~4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Groovey\\Groovey\\": "src"
+        }
+    }
+}

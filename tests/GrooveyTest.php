@@ -14,7 +14,10 @@ class GrooveyTest extends TestCase
     {
         $app = new Application();
 
-        // $app['debug'] = true;
+        $mailer = $app->get('mailer');
+        // print_r($mailer);
+
+         // $app['mailer'] = true;
 
         // $this->app = $app;
     }

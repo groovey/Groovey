@@ -2,8 +2,9 @@
 
 namespace Groovey;
 
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+
 // use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 // use Symfony\Component\HttpFoundation\BinaryFileResponse;
 // use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -19,11 +20,30 @@ use Pimple\ServiceProviderInterface;
 // use Symfony\Component\HttpFoundation\StreamedResponse;
 // use Symfony\Component\HttpFoundation\JsonResponse;
 
-class Application extends Container
+class Application
 {
+    private $container;
+
     public function __construct()
     {
-        print 'zzz';
+        $container = new ContainerBuilder();
+        return $this->container = $container;
+    }
 
+    public function get($value)
+    {
+        $container = $this->container;
+
+        $container = $container->get($value);
+
+        return $container;
+    }
+
+    public function register($id, $class = null)
+    {
+        $container = $this->container;
+
+        $container = $container->register($id, $class);
+        return $container;
     }
 }

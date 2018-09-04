@@ -20,11 +20,16 @@ class Application
     {
         $container = new ContainerBuilder();
 
+        $this->container = $container;
+
+        $this->register('dumper', 'Groovey\Providers\Dumper');
+        $this->register('router', 'Groovey\Providers\Router');
+
         // Debug::enable();
         // ErrorHandler::register();
         // DebugClassLoader::enable();
 
-        return $this->container = $container;
+        return $this->container;
     }
 
     public function register($id, $class = null)

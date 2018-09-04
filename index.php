@@ -12,13 +12,7 @@ use Groovey\Application;
 
 $app = new Application();
 
-$app->register('dumper', 'Groovey\Providers\Dumper');
-     // ->addArgument(['test']);
-
-$app->register('router', 'Groovey\Providers\Router');
-
-$dumper = $app->get('dumper');
-$dumper->dump(['test']);
+$app->get('dumper')->dump([$_SERVER]);
 
 $app->mount('Groovey\Controllers\Sample');
 

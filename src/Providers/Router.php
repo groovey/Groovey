@@ -4,10 +4,6 @@ namespace Groovey\Providers;
 
 use Groovey\Application;
 use Groovey\Interfaces\ProviderInterface;
-use Symfony\Component\VarDumper\VarDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -20,6 +16,11 @@ class Router implements ProviderInterface
     public function __construct(Application $app)
     {
         $this->routes = new RouteCollection();
+    }
+
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 
     public function add($pattern, array $parts = [])
@@ -36,10 +37,6 @@ class Router implements ProviderInterface
         $routes->add($index, $$index);
     }
 
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
 
     public function boot(Application $app)
     {

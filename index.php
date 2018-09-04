@@ -11,8 +11,8 @@ $app->register('dumper', 'Groovey\Providers\Dumper');
 
 $app->register('router', 'Groovey\Providers\Router');
 
-$dumper = $app->get('dumper');
 
+$dumper = $app->get('dumper');
 $dumper->dump(['test']);
 
 $app->mount('Groovey\Controllers\Sample');

@@ -17,11 +17,13 @@ class Sample implements ControllerInterface
     {
         $router = $app->get("router");
         $router->add('/foo', [$this, 'index']);
+        $router->add('/foo_bar', [$this, 'index2']);
 
-
-        $context = new RequestContext();
-        $matcher = new UrlMatcher($router->getRoutes(), $context);
+        $routes     = $router->getRoutes();
+        $context    = new RequestContext();
+        $matcher    = new UrlMatcher($routes, $context);
         $parameters = $matcher->match('/foo');
+
         // call_user_func_array([$o, 'index'] , ['one', 'two22']);
         // print_r($parameters);
 

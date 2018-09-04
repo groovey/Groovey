@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 
 class Application
 {
@@ -50,12 +52,26 @@ class Application
         $class->route($this);
     }
 
+    public function handle(Request $request)
+    {
+
+        $controllerResolver = new ControllerResolver();
+        $argumentResolver = new ArgumentResolver();
+
+
+    }
+
+
     public function run(Request $request = null)
     {
         if (null === $request) {
             $request = Request::createFromGlobals();
         }
 
-        $response = new Response();
+        $response = $this->handle($request);
+        // $response->send();
+
+
+
     }
 }

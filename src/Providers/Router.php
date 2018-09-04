@@ -6,8 +6,6 @@ use Groovey\Application;
 use Groovey\Interfaces\ProviderInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Router implements ProviderInterface
 {
@@ -31,12 +29,11 @@ class Router implements ProviderInterface
         $instance   = new $class();
         $reflection = new \ReflectionClass($instance);
         $className  = $reflection->getShortName();
-        $index      = strtolower($className . '_' . $method);
+        $index      = strtolower($className.'_'.$method);
         $$index     = new Route($pattern, array('class' => $class, 'method' => $method));
 
         $routes->add($index, $$index);
     }
-
 
     public function boot(Application $app)
     {

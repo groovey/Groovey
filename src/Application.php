@@ -3,20 +3,13 @@
 namespace Groovey;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\DebugClassLoader;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Application
@@ -70,14 +63,14 @@ class Application
 
         $context->fromRequest($request);
 
-        $path       = $context->getPathInfo();
-        $matcher    = new UrlMatcher($routes, $context);
+        $path    = $context->getPathInfo();
+        $matcher = new UrlMatcher($routes, $context);
 
         try {
+
             $parameters = $matcher->match($path);
             $class      = $parameters['class'];
             $method     = $parameters['method'];
-
             $controller = new $class();
 
             return call_user_func_array([$controller, $method], [$this, $request]);
@@ -87,7 +80,6 @@ class Application
             return new Response('An error occurred', 500);
         }
     }
-
 
     public function run(Request $request = null)
     {

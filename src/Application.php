@@ -4,6 +4,11 @@ namespace Groovey;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Application
 {
@@ -19,10 +24,10 @@ class Application
     public function register($id, $class = null)
     {
         $container = $this->container;
-        $container->register($id, $class);
+        $container->register($id, $class)->setArguments([$this]);
 
         $provider = $this->get($id);
-        $provider->boot($container);
+        $provider->boot($this);
 
         return $container;
     }
@@ -39,7 +44,20 @@ class Application
     {
     }
 
-    public function mount()
+    public function mount($class)
     {
+        $class = new $class();
+        $class->route($this);
+
     }
+
+    public function run(Request $request = null)
+    {
+        if (null === $request) {
+            $request = Request::createFromGlobals();
+        }
+
+        $response = new Response();
+    }
+
 }

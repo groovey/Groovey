@@ -2,8 +2,8 @@
 
 namespace Groovey\Controllers;
 
-
 use Groovey\Application;
+use Groovey\Interfaces\ControllerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -11,39 +11,26 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class Sample
-// implements ControllerProviderInterface
+class Sample implements ControllerInterface
 {
     public function route(Application $app)
     {
-
         $router = $app->get("router");
         $router->add('/foo', [$this, 'index']);
-        // $router->add('/foo_bar', [$this, 'index2']);
 
-        // $foo_route = new Route('/foo', array('controller' => 'Sample', 'method' => 'yow'));
 
-        // $routes = new RouteCollection();
-        // $routes->add('foo_route', $foo_route);
-
-        // $context = new RequestContext();
-        // $context->fromRequest(Request::createFromGlobals());
-
-        // $matcher = new UrlMatcher($routes, $context);
-
-        // // $parameters = $matcher->match($context->getPathInfo());
-        // $parameters = $matcher->match('/foo');
+        $context = new RequestContext();
+        $matcher = new UrlMatcher($router->getRoutes(), $context);
+        $parameters = $matcher->match('/foo');
+        // call_user_func_array([$o, 'index'] , ['one', 'two22']);
         // print_r($parameters);
 
-
-
-        // print_r($this);
 
         return;
     }
 
 
-    public function index()
+    public function index(Application $app)
     {
 
         // print $two;

@@ -2,10 +2,9 @@
 
 namespace Groovey\Interfaces;
 
-// use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Groovey\Application;
 
-interface ServiceProvider
+interface ProviderInterface
 {
     public function boot(Application $app);
 }

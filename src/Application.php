@@ -48,7 +48,6 @@ class Application
     {
         $class = new $class();
         $class->route($this);
-
     }
 
     public function run(Request $request = null)
@@ -59,5 +58,4 @@ class Application
 
         $response = new Response();
     }
-
 }

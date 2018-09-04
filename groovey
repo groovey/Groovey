@@ -15,7 +15,6 @@ $dumper = $app->get('dumper');
 
 $dumper->dump(['test']);
 
-
 $app->mount('Groovey\Controllers\Sample');
 
 

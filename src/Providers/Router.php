@@ -32,7 +32,7 @@ class Router implements ProviderInterface
         $reflection = new \ReflectionClass($instance);
         $className  = $reflection->getShortName();
         $index      = strtolower($className . '_' . $method);
-        $$index     = new Route($pattern, array('controller' => $class, 'method' => $method));
+        $$index     = new Route($pattern, array('class' => $class, 'method' => $method));
 
         $routes->add($index, $$index);
     }

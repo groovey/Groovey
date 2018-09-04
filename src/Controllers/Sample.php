@@ -5,10 +5,7 @@ namespace Groovey\Controllers;
 use Groovey\Application;
 use Groovey\Interfaces\ControllerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class Sample implements ControllerInterface
@@ -16,34 +13,27 @@ class Sample implements ControllerInterface
     public function route(Application $app)
     {
         $router = $app->get("router");
-        $router->add('/foo', [$this, 'index']);
-        $router->add('/foo_bar', [$this, 'index2']);
-
-        $routes     = $router->getRoutes();
-        $context    = new RequestContext();
-        $matcher    = new UrlMatcher($routes, $context);
-        $parameters = $matcher->match('/foo');
-
-        // call_user_func_array([$o, 'index'] , ['one', 'two22']);
-        // print_r($parameters);
-
+        $router->add('/', [$this, 'index']);
+        $router->add('/sample', [$this, 'sample']);
 
         return;
     }
 
-
-    public function index(Application $app)
+    public function index(Application $app, Request $request)
     {
+        dump("Index Page");
 
-        // print $two;
+        $method = $request->getMethod();
 
-        // $this->test();
+        dump('method = ' . $method);
 
-        // $app->debug('Welcome!');
-        // // $app->debug('App name = '.$app['config']'app.name'));
-        // $app->debug($app);
-        // // $app->debug(new User($app));
+        return new Response();
+    }
 
-        // return new Response('End');
+
+    public function sample(Application $app, Request $request)
+    {
+        dump("Sample Page");
+        return new Response();
     }
 }

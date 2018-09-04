@@ -9,8 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Debug\Debug;
+use Symfony\Component\Debug\ErrorHandler;
+use Symfony\Component\Debug\DebugClassLoader;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Application
 {
@@ -19,6 +26,10 @@ class Application
     public function __construct()
     {
         $container = new ContainerBuilder();
+
+        // Debug::enable();
+        // ErrorHandler::register();
+        // DebugClassLoader::enable();
 
         return $this->container = $container;
     }
@@ -54,11 +65,27 @@ class Application
 
     public function handle(Request $request)
     {
+        $routes  = $this->get('router')->getRoutes();
+        $context = new RequestContext();
 
-        $controllerResolver = new ControllerResolver();
-        $argumentResolver = new ArgumentResolver();
+        $context->fromRequest($request);
 
+        $path       = $context->getPathInfo();
+        $matcher    = new UrlMatcher($routes, $context);
 
+        try {
+            $parameters = $matcher->match($path);
+            $class      = $parameters['class'];
+            $method     = $parameters['method'];
+
+            $controller = new $class();
+
+            return call_user_func_array([$controller, $method], [$this, $request]);
+        } catch (ResourceNotFoundException $exception) {
+            return new Response('Routing not found.', 404);
+        } catch (\Exception $exception) {
+            return new Response('An error occurred', 500);
+        }
     }
 
 
@@ -69,9 +96,6 @@ class Application
         }
 
         $response = $this->handle($request);
-        // $response->send();
-
-
-
+        $response->send();
     }
 }

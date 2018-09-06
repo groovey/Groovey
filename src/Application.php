@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Application
 {
+    public $debug;
     private $container;
 
     public function __construct()
@@ -30,6 +31,11 @@ class Application
         // DebugClassLoader::enable();
 
         return $this->container;
+    }
+
+    public function debug($value = false)
+    {
+        $this->debug = $value;
     }
 
     public function register($id, $class = null)
@@ -61,6 +67,23 @@ class Application
         $class->route($this);
     }
 
+    public function before($callback)
+    {
+        print '11';
+
+        return $callback;
+    }
+
+    public function after($callback)
+    {
+
+        // print 'sss';
+        //
+        print '22';
+
+        return $callback;
+    }
+
     public function handle(Request $request)
     {
         $routes  = $this->get('router')->getRoutes();
@@ -72,7 +95,6 @@ class Application
         $matcher = new UrlMatcher($routes, $context);
 
         try {
-
             $parameters = $matcher->match($path);
             $class      = $parameters['class'];
             $method     = $parameters['method'];

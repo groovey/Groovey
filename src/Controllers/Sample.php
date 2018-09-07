@@ -22,11 +22,27 @@ class Sample implements ControllerInterface
     {
         $method = $request->getMethod();
 
+        dump('Sample Controller :: index');
+
         return new Response();
     }
 
     public function sample(Application $app, Request $request)
     {
+        return new Response();
+    }
+
+    public function before(Application $app, Request $request)
+    {
+        echo 'before';
+
+        return;
+    }
+
+    public function after(Application $app, Request $request)
+    {
+        echo 'after';
+
         return new Response();
     }
 }

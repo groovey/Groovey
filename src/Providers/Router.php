@@ -23,16 +23,18 @@ class Router implements ProviderInterface
 
     public function add($pattern, array $parts = [])
     {
-        $routes     = $this->routes;
-        $class      = get_class($parts[0]);
-        $method     = $parts[1];
-        $instance   = new $class();
+        $routes = $this->routes;
+        $class = get_class($parts[0]);
+        $method = $parts[1];
+        $instance = new $class();
         $reflection = new \ReflectionClass($instance);
-        $className  = $reflection->getShortName();
-        $index      = strtolower($className.'_'.$method);
-        $$index     = new Route($pattern, array('class' => $class, 'method' => $method));
+        $className = $reflection->getShortName();
+        $index = strtolower($className.'_'.$method);
+        $$index = new Route($pattern, array('class' => $class, 'method' => $method));
 
         $routes->add($index, $$index);
+
+        return $class;
     }
 
     public function boot(Application $app)

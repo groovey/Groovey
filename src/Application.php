@@ -12,26 +12,17 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\DebugClassLoader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpKernel\Exeption\NotFoundHttpException;
-
-use Symfony\Component\HttpKernel\EventListener\RouterListener;
-
-class Application implements HttpKernelInterface
+class Application
 {
     public $debug;
     private $container;
 
+    private $beforeMiddlewares = [];
+    private $afterMiddlewares = [];
+
     public function __construct()
     {
-        $container = new ContainerBuilder();
-
-        $this->container = $container;
+        $this->container = new ContainerBuilder();
 
         $this->register('dumper', 'Groovey\Providers\Dumper');
         $this->register('router', 'Groovey\Providers\Router');
@@ -77,43 +68,40 @@ class Application implements HttpKernelInterface
         $class->route($this);
     }
 
-    public function before($callback)
+    public function before(array $middlewares = [])
     {
-        print '11 ---->';
-
-        $callback($this);
-
-
-        // return $callback;
+        $this->beforeMiddlewares = $middlewares;
     }
 
-    public function after($callback)
+    public function after(array $middlewares = [])
     {
-
-        // print 'sss';
-        //
-        $this->trace('22');
-
-        return $callback;
+        $this->afterMiddlewares = $middlewares;
     }
 
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request)
     {
-        $routes  = $this->get('router')->getRoutes();
+        $routes = $this->get('router')->getRoutes();
         $context = new RequestContext();
 
         $context->fromRequest($request);
 
-        $path    = $context->getPathInfo();
+        $path = $context->getPathInfo();
         $matcher = new UrlMatcher($routes, $context);
 
         try {
             $parameters = $matcher->match($path);
-            $class      = $parameters['class'];
-            $method     = $parameters['method'];
+            $class = $parameters['class'];
+            $method = $parameters['method'];
             $controller = new $class();
 
-            return call_user_func_array([$controller, $method], [$this, $request]);
+            $stack = new Stack($this, $request);
+            $stack->handle($this->beforeMiddlewares);
+
+            $response = call_user_func_array([$controller, $method], [$this, $request]);
+
+            $stack->handle($this->afterMiddlewares);
+
+            return $response;
         } catch (ResourceNotFoundException $exception) {
             return new Response('Routing not found.', 404);
         } catch (\Exception $exception) {

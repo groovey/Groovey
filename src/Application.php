@@ -8,15 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Debug\Debug;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\DebugClassLoader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Application
 {
-    public $debug;
+    private $debug;
     private $container;
-
     private $beforeMiddlewares = [];
     private $afterMiddlewares = [];
 
@@ -26,10 +23,6 @@ class Application
 
         $this->register('dumper', 'Groovey\Providers\Dumper');
         $this->register('router', 'Groovey\Providers\Router');
-
-        // Debug::enable();
-        // ErrorHandler::register();
-        // DebugClassLoader::enable();
 
         return $this->container;
     }
@@ -62,10 +55,12 @@ class Application
     {
     }
 
-    public function mount($class)
+    public function mount($classes)
     {
-        $class = new $class();
-        $class->route($this);
+        foreach ($classes as $class) {
+            $controller = new $class();
+            $controller->route($this);
+        }
     }
 
     public function before(array $middlewares = [])

@@ -23,6 +23,6 @@ $app->get('dumper')->dump([$_SERVER]);
 $app->before(['Groovey\Middlewares\Before']);
 $app->after(['Groovey\Middlewares\After']);
 
-$app->mount('Groovey\Controllers\Sample');
+$app->mount(['Groovey\Controllers\Sample']);
 
 $app->run();

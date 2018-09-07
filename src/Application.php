@@ -51,10 +51,6 @@ class Application
         return $container;
     }
 
-    public function commands(array $values = [])
-    {
-    }
-
     public function mount($classes)
     {
         foreach ($classes as $class) {

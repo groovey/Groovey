@@ -12,7 +12,17 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\DebugClassLoader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class Application
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\Exeption\NotFoundHttpException;
+
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
+
+class Application implements HttpKernelInterface
 {
     public $debug;
     private $container;
@@ -69,9 +79,12 @@ class Application
 
     public function before($callback)
     {
-        print '11';
+        print '11 ---->';
 
-        return $callback;
+        $callback($this);
+
+
+        // return $callback;
     }
 
     public function after($callback)
@@ -79,12 +92,12 @@ class Application
 
         // print 'sss';
         //
-        print '22';
+        $this->trace('22');
 
         return $callback;
     }
 
-    public function handle(Request $request)
+    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         $routes  = $this->get('router')->getRoutes();
         $context = new RequestContext();

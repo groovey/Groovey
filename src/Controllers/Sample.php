@@ -20,19 +20,13 @@ class Sample implements ControllerInterface
 
     public function index(Application $app, Request $request)
     {
-        dump('Index Page');
-
         $method = $request->getMethod();
-
-        dump('method = '.$method);
 
         return new Response();
     }
 
     public function sample(Application $app, Request $request)
     {
-        dump('Sample Page');
-
         return new Response();
     }
 }

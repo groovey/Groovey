@@ -37,20 +37,24 @@ class Application
         $container = $this->container;
         $container->register($id, $class)->setArguments([$this]);
 
-        $provider = $this->get($id, $instance = false);
+        $provider = $this->get($id);
         $provider->boot($this);
 
         return $container;
     }
 
-    public function get($value = null, $instance = true)
+    public function get($value)
     {
         $container = $this->container;
         $container = $container->get($value);
 
-        if (true == $instance) {
-            $container = $container->getInstance();
-        }
+        return $container;
+    }
+
+    public function getInstance($value)
+    {
+        $container = $this->container;
+        $container = $container->get($value)->getInstance();
 
         return $container;
     }

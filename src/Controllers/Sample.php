@@ -11,7 +11,7 @@ class Sample implements ControllerInterface
 {
     public function route(Application $app)
     {
-        $router = $app->get('router');
+        $router = $app->get('router', $instance = false);
         $router->add('/', [$this, 'index']);
         $router->add('/sample', [$this, 'sample']);
 

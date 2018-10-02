@@ -2,6 +2,7 @@
     "name": "groovey/groovey",
     "description": "Groovey Framework.",
     "keywords": ["silex", "groovey"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Harold Kim Cantil",

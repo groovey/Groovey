@@ -6,13 +6,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Sample extends Command
+class Framework extends Command
 {
     public function configure()
     {
         $this
-            ->setName('sample:test')
-            ->setDescription('Test command.')
+            ->setName('framework:about')
+            ->setDescription('Show the authors name and logo.')
         ;
     }
 

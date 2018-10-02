@@ -20,6 +20,6 @@ $app->register('console', 'Groovey\Providers\Console');
 $dumper = $app->get('dumper');
 $console = $app->get('console');
 
-$console->add(['Groovey\Commands\Sample']);
+$console->add(['Groovey\Commands\Framework']);
 
 $console->run();

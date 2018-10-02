@@ -34,6 +34,6 @@ class ConsoleTest extends TestCase
 
         $this->assertInstanceOf('Groovey\Providers\Console', $console);
 
-        $console->add(['Groovey\Commands\Sample']);
+        $console->add(['Groovey\Commands\Framework']);
     }
 }

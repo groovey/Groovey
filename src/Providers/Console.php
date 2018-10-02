@@ -16,7 +16,7 @@ class Console extends ServiceProvider implements ProviderInterface
         return $this;
     }
 
-    public function commands($classes)
+    public function add($classes)
     {
         $instance = $this->getInstance();
         if (is_array($classes)) {

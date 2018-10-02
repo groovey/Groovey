@@ -3,11 +3,12 @@
 namespace Groovey\Providers;
 
 use Groovey\Application;
+use Groovey\ServiceProvider;
 use Groovey\Interfaces\ProviderInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
-class Router implements ProviderInterface
+class Router extends ServiceProvider implements ProviderInterface
 {
     private $routes;
 

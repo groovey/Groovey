@@ -3,17 +3,20 @@
 namespace Groovey\Providers;
 
 use Groovey\Application;
+use Groovey\ServiceProvider;
 use Groovey\Interfaces\ProviderInterface;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
-class Dumper implements ProviderInterface
+class Dumper extends ServiceProvider implements ProviderInterface
 {
     public function __construct(Application $app)
     {
-        return new VarDumper();
+        $this->instance = new VarDumper();
+
+        return $this;
     }
 
     public function dump($value = null)

@@ -3,40 +3,34 @@
 namespace Groovey\Providers;
 
 use Groovey\Application;
+use Groovey\ServiceProvider;
 use Groovey\Interfaces\ProviderInterface;
 use Symfony\Component\Console\Application as AppConsole;
 
-class Console implements ProviderInterface
+class Console extends ServiceProvider implements ProviderInterface
 {
-    public $container;
-
     public function __construct(Application $app)
     {
-        $this->container = new AppConsole();
+        $this->instance = new AppConsole();
 
         return $this;
     }
 
-    public function getContainer()
+    public function commands($classes)
     {
-        return $this->container;
+        $instance = $this->getInstance();
+        if (is_array($classes)) {
+            foreach ($classes as $class) {
+                $instance->add(new $class());
+            }
+        }
     }
 
     public function run()
     {
-        $container = $this->getContainer();
+        $instance = $this->getInstance();
 
-        return $container->run();
-    }
-
-    public function add($classes)
-    {
-        $container = $this->getContainer();
-        if (is_array($classes)) {
-            foreach ($classes as $class) {
-                $container->add(new $class());
-            }
-        }
+        return $instance->run();
     }
 
     public function boot(Application $app)

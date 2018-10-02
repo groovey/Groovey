@@ -51,14 +51,6 @@ class Application
         return $container;
     }
 
-    public function getInstance($value)
-    {
-        $container = $this->container;
-        $container = $container->get($value)->getInstance();
-
-        return $container;
-    }
-
     public function mount($classes)
     {
         foreach ($classes as $class) {
